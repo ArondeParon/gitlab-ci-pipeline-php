@@ -28,35 +28,11 @@ export buildDeps=" \
     pkg-config \
     "
 
-export runtimeDeps=" \
-    imagemagick \
-    libfreetype6-dev \
-    libgmp-dev \
-    libicu-dev \
-    libjpeg-dev \
-    libkrb5-dev \
-    libldap2-dev \
-    libmagickwand-dev \
-    libmemcached-dev \
-    libmemcachedutil2 \
-    libpng-dev \
-    libpq-dev \
-    libssl-dev \
-    libuv1-dev \
-    libwebp-dev \
-    libxml2-dev \
-    php-soap \
-    libxslt1-dev \
-    libzip-dev \
-    multiarch-support \
-    "
-
 
 apt-get update \
-  && apt-get install -yq $buildDeps \
-  && apt-get install -yq $runtimeDeps \
-  && rm -rf /var/lib/apt/lists/* \
-  && docker-php-ext-install -j$(nproc) $extensions
+  && apt-get install -yq $buildDeps
+
+install-php-extensions $extensions
 
 docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
   && docker-php-ext-install -j$(nproc) gd \
