@@ -16,6 +16,7 @@ if [[ $PHP_VERSION == "8.0" ]]; then
     pdo_mysql \
     pdo_pgsql \
     pgsql \
+    sockets \
     soap \
     xsl \
     zip
@@ -34,6 +35,7 @@ else
     pdo_mysql \
     pdo_pgsql \
     pgsql \
+    sockets \
     soap \
     xmlrpc \
     xsl \
