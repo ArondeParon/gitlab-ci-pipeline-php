@@ -45,6 +45,7 @@ export runtimeDeps=" \
     libuv1-dev \
     libwebp-dev \
     libxml2-dev \
+    php-soap \
     libxslt1-dev \
     libzip-dev \
     multiarch-support \
@@ -66,29 +67,14 @@ docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
   && docker-php-source delete
 
 docker-php-source extract \
-  && curl -L -o /tmp/cassandra-cpp-driver.deb "https://downloads.datastax.com/cpp-driver/ubuntu/18.04/cassandra/v2.14.0/cassandra-cpp-driver_2.14.0-1_amd64.deb" \
-  && curl -L -o /tmp/cassandra-cpp-driver-dev.deb "https://downloads.datastax.com/cpp-driver/ubuntu/18.04/cassandra/v2.14.0/cassandra-cpp-driver-dev_2.14.0-1_amd64.deb" \
-  && dpkg -i /tmp/cassandra-cpp-driver.deb /tmp/cassandra-cpp-driver-dev.deb \
-  && rm /tmp/cassandra-cpp-driver.deb /tmp/cassandra-cpp-driver-dev.deb \
-  && curl -L -o /tmp/cassandra.tar.gz "https://github.com/datastax/php-driver/archive/24d85d9f1d.tar.gz" \
-  && mkdir /tmp/cassandra \
-  && tar xfz /tmp/cassandra.tar.gz --strip 1 -C /tmp/cassandra \
-  && rm -r /tmp/cassandra.tar.gz \
-  && curl -L "https://github.com/datastax/php-driver/pull/135.patch" | patch -p1 -d /tmp/cassandra -i - \
-  && mv /tmp/cassandra/ext /usr/src/php/ext/cassandra \
-  && rm -rf /tmp/cassandra \
-  && docker-php-ext-install cassandra \
-  && docker-php-source delete
-
-docker-php-source extract \
   && git clone https://github.com/php-memcached-dev/php-memcached /usr/src/php/ext/memcached/ \
   && docker-php-ext-install memcached \
   && docker-php-ext-enable memcached \
   && docker-php-source delete
 
 pecl channel-update pecl.php.net \
-  && pecl install redis apcu mongodb xdebug \
-  && docker-php-ext-enable redis apcu mongodb xdebug
+  && pecl install redis apcu xdebug \
+  && docker-php-ext-enable redis apcu xdebug
 
 #Imagick
 cd /usr/local/src \
