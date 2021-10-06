@@ -25,6 +25,7 @@ export DEBIAN_FRONTEND=noninteractive
       build-essential \
       curl \
       git \
+      procps \
       gnupg2 \
       jq \
       libc-client-dev \

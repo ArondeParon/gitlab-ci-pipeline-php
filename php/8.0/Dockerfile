@@ -17,6 +17,7 @@ LABEL maintainer="Eduardo Bizarro <edbizarro@gmail.com>" \
 ENV IMAGE_USER=php
 ENV HOME=/home/$IMAGE_USER
 ENV COMPOSER_HOME=$HOME/.composer
+ENV PATH=$HOME/.yarn/bin:$PATH
 ENV GOSS_VERSION="0.3.16"
 ENV PHP_VERSION=8.0
 
@@ -37,6 +38,8 @@ RUN bash ./packages.sh
 RUN bash ./extensions.sh
 RUN bash ./node.sh \
   && adduser --disabled-password --gecos "" $IMAGE_USER && \
+  echo "PATH=$(yarn global bin):$PATH" >> /root/.profile && \
+  echo "PATH=$(yarn global bin):$PATH" >> /root/.bashrc && \
   echo "$IMAGE_USER  ALL = ( ALL ) NOPASSWD: ALL" >> /etc/sudoers && \
   mkdir -p /var/www/html \
   && rm -rf ~/.composer/cache/* \
